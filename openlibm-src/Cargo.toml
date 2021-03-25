@@ -1,0 +1,11 @@
+[package]
+name = "openlibm-src"
+version = "0.1.0"
+authors = ["Mitsutoshi Aoe <me@maoe.name>"]
+edition = "2018"
+
+build = "build.rs"
+links = "openlibm"
+
+[build-dependencies]
+anyhow = "1.0.39"
