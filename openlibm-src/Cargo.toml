@@ -8,4 +8,4 @@ build = "build.rs"
 links = "openlibm"
 
 [build-dependencies]
-anyhow = "1.0.39"
+anyhow = "1.0"
