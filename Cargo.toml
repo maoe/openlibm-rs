@@ -1,2 +1,5 @@
 [workspace]
-members = ["openlibm-src"]
+members = [
+    "openlibm-src",
+    "openlibm-sys",
+]

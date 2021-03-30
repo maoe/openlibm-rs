@@ -1,0 +1,19 @@
+[package]
+name = "openlibm-sys"
+version = "0.1.0"
+authors = ["Mitsutoshi Aoe <me@maoe.name>"]
+edition = "2018"
+license = "Apache-2.0/MIT"
+repository = "https://github.com/maoe/openlibm-rs"
+
+build = "build.rs"
+
+[features]
+static = ["openlibm-src/static"]
+
+[dependencies]
+openlibm-src = { version = "0.1.0", path = "../openlibm-src" }
+
+[build-dependencies]
+anyhow = "1.0"
+bindgen = "0.57"
