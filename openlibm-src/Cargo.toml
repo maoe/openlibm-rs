@@ -1,11 +1,17 @@
 [package]
 name = "openlibm-src"
-version = "0.1.0"
+version = "0.1.0+openlibm-0.7.5"
 authors = ["Mitsutoshi Aoe <me@maoe.name>"]
 edition = "2018"
+license = "Apache-2.0/MIT"
+repository = "https://github.com/maoe/openlibm-rs"
 
 build = "build.rs"
 links = "openlibm"
 
+[features]
+static = []
+
 [build-dependencies]
 anyhow = "1.0"
+regex = "1.4"
