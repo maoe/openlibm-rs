@@ -5,7 +5,6 @@ fn main() -> anyhow::Result<()> {
     let bindings = bindgen::builder()
         .header(format!("{}", include_path.join("openlibm.h").display()))
         .clang_arg(format!("-I{}", include_path.display()))
-        .blacklist_item("^_.*")
         .blacklist_function(".*l$")
         .blacklist_function("nexttoward.?")
         .generate()
