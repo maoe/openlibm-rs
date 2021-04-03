@@ -6,6 +6,7 @@ jobs:
   ci:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         rust:
           - stable
@@ -15,11 +16,22 @@ jobs:
         os:
           - ubuntu-20.04
           - ubuntu-18.04
-          - ubuntu-16.04
           - macos-10.15
           # - windows-2019
+        package:
+          - openlibm-src
+          # - openlibm-sys
+        features:
+          - ''
+          - static
 
     steps:
+      - name: Set variables
+        run: |
+          if [ -n "${{ matrix.features }}" ]; then
+            echo "CARGO_FEATURES_OPT=--features ${{ matrix.features }}" >> $GITHUB_ENV
+          fi
+
       - uses: actions/checkout@v2
         with:
           submodules: true
@@ -32,24 +44,35 @@ jobs:
           override: true
           components: rustfmt, clippy
 
+      - uses: mstksg/get-package@v1
+        name: Install system dependencies
+        with:
+          brew: openlibm
+          apt-get: libopenlibm-dev
+        if: "${{ matrix.features == '' }}"
+
       - uses: actions-rs/cargo@v1
         name: Build
         with:
           command: build
+          args: --manifest-path ${{ matrix.package }}/Cargo.toml ${{ env.CARGO_FEATURES_OPT }}
 
       - uses: actions-rs/cargo@v1
         name: Test
         with:
           command: test
+          args: --manifest-path ${{ matrix.package }}/Cargo.toml ${{ env.CARGO_FEATURES_OPT }}
 
       - uses: actions-rs/cargo@v1
         name: Format
         with:
           command: fmt
-          args: --all -- --check
+          args: -p ${{ matrix.package }} -- --check
+        if: "${{ matrix.features == '' }}"
 
       - uses: actions-rs/cargo@v1
         name: Lint
         with:
           command: clippy
-          args: -- -D warnings
+          args: -p ${{ matrix.package }} -- -D warnings
+        if: "${{ matrix.features == '' }}"
