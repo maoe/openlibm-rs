@@ -18,7 +18,7 @@ jobs:
           # - windows-2019
         package:
           - openlibm-src
-          # - openlibm-sys
+          - openlibm-sys
         features:
           - ''
           - static
