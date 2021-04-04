@@ -1,6 +1,6 @@
 use std::{env, path::PathBuf, process::Command, str};
 
-use anyhow::anyhow;
+use anyhow::{anyhow, bail};
 use regex::Regex;
 
 fn main() -> anyhow::Result<()> {
@@ -19,6 +19,9 @@ fn main() -> anyhow::Result<()> {
 fn build() -> anyhow::Result<()> {
     let out_dir = PathBuf::from(env::var("OUT_DIR")?);
     let src_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR")?).join("upstream");
+    if !src_dir.join("Makefile").exists() {
+        bail!("OpenBLAS submodule isn't checked out. Run git submodule update -i?");
+    }
     let num_jobs = env::var("NUM_JOBS");
     let mut build = Command::new("make");
     build.arg("libopenlibm.a").current_dir(&src_dir);

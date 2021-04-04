@@ -13,5 +13,5 @@ links = "openlibm"
 static = []
 
 [build-dependencies]
-anyhow = "1.0"
+anyhow = "1.0.8"
 regex = "1.4"
